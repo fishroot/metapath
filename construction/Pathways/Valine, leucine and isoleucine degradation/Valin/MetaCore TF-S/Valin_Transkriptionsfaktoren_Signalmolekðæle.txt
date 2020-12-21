@@ -1,0 +1,48 @@
+c-Myc		Ap-2		GCR-alpha		NFYA		NFYB		SP1		PPAR-gamma		TR4		NANOG		RXRA			SP3
+
+AMY-A				Relaxin1		ATF-6 alpha	ATF-6 alpha	AATF		CARM1			TR4		Pin4		ADA3-like protein	COUP-TFI
+AUF-1				Thioredoxin		SP1		CIITA		AFX1		CBP			Ubiquitin	SALL4		BRD8			ESR1
+Bcl-2				14-3-3 eta				p300		AP-2A		CDK4							GADD45 alpha		RARbeta
+beta-TrCP			BAF155							ARNT		CDK9							GADD45 beta		Rb protein
+C14orf169			BRG1							Ataxin-1	CITED2							GADD45 gamma
+CIP2A				CARP-1							ATF7IP		Cyclin D3						Importin
+DNMT3A				Caveolin-1						BORIS		Cyclin G2						LXR-alpha
+E7protein			CDC25B							BRG1		EDF1							MED25
+GRSF1				CREB1							c-Jun		ERK5							NCOA1
+hnRNP C				HDAC1							C/EBPdelta	GADD45alpha						NCOA2
+hnRNP U				Hic-5/ARA55						COUP-TFI	GADD45beta						NRIF3
+IKK-gamma			HMG1,2							CRSP complex	GADD45gamma						PELP1
+IMP1				HMGB1							Cyclin A1	GCN1L1							PPARGC1
+LANA				JAB1							DDX3X		GCR-alpha						PRMT2
+LBP-1B				LBC							E2F2		Hic-5/ARA55						TR-beta1
+Max				NCOA1							E2F3		KIAA1838						UBE2E2
+Miz-1				NCOA2							ELF1		LIPIN1							
+NMI				NRIP							ESR1		LMO4
+Nuleophosmin			p23 co-chaperone					ESR2		MEL1
+p300				Parathymosin						Galectin-4	Menin
+PCBP-1				RBB2							HMGA2		NCOA1
+PCBP-2				Relaxin 2						HMGI/Y		NCOA2
+PSF				STAMP							HSP27		NCOA3
+PTBP1				STAT3							HSP90alpha	NCOA4
+RAM2				SUMO-4							LEDGF/p52	NCOA6
+RUVBL1				TRAP170							MEF2D		p300
+RUVBL2				TRAP80							MTF-1		PDK
+SKP2				TRFP							NeuroD1		PERC
+SNIP1				TRIP2							NF-AT1		PPARGC1
+TRRAP				TRIP6							NF-AT2		PRIC285
+vIRF-3				TTC5							NF-kB1		PRMT2
+YB-1				Zac1							Nucleolin	SDP1
+ZO-2											Nucleophosim	SHP	
+											Progesterone receptor	STAT6
+											RARbeta		Tip60
+											Rb protein	TRAP170
+											Securin		TRIP2
+											SF1
+											SMAD2
+											SMAD3
+											SMAD4
+											TAL1
+											TRAP170
+											TReP-132
+											VDR
+											Zn(2+)nucleus		

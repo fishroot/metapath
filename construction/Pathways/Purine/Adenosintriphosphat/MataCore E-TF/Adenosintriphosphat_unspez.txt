@@ -1,0 +1,14 @@
+AMPD1		AK7		NME6		
+	
+MEF2		c-Myc		Bcl-6
+MYOD		E2F1		c-Myc
+MYOG		E2F4		CTCF
+NFIC		ETS1		E2F1
+SP1		GABP alpha	E2F4
+AHR		HES1		E2F6
+Max		RARalpha	Elk-1
+NRSF				ETS1
+p53				GABP alpha
+				RARalpha
+				YB-1
+				TIF1-beta

@@ -1,0 +1,8 @@
+BCAT1: c-Myc
+BCKDHA: AP-2,GCR-alpha,NFYA,NFYB,SP1,RAR-beta/RXR-alpha,RARbeta,RXRA,SP1,STAT6,PERC,PPARGC1
+DBT: PPAR-gamma,PPAR-gamma/RXR-alpha,PPAR-alpha/RXR-alpha,PPAR-gamma/RXR-alpha,RAR-alpha/RXR-alpha
+DLD: CAR/RXR-alpha,HNF4-alpha,HNF4-alpha,PPAR-alpha/RXR-alpha
+ACAA2: NANOG,TR4
+EHHADH: ERR1,HNF3-beta
+ECHS1:
+ACADM:

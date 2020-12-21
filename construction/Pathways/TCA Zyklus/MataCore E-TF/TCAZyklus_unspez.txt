@@ -1,0 +1,39 @@
+CS		ACO1		IDH3A		OGDH		DLST		DLD		SUCLG2		SDHA		FH		MDH1		ACLY
+
+ERR3		SP1		ERR1		ERR3		AP-2		Androgen receptor	Bcl-6	c-Myc		ERR3		C-Jun		C/EBPalpha
+PPAR-gamma 	Bcl-6		ERR3		AP-1		c-Myc		AP-1		c-Myc		NRF1		HNF1-alpha	PPAR-alpha/RXR-alpha	SP1
+ATF2/c-Jun	c-Myc		PPARGC1		c-Myc		E2F1		AP-2		E2F1		NRF2		Bcl-6		Bcl-6		SREBP1
+Bcl-6		c-Rel		CREB1		CREB1		ERR2		ATF-2		ERF		Bcl-6		c-Myc		c-Myc		SREBP2
+c-Myc		E2F1		E2F1		E2F1		ETS1		Bcl-6		ETS1		CDX2		C/EBP-gamma	CREB1		Androgen receptor
+CREB1		E2F5		Elk-1		ERR2		GABP alpha	c-Myc		FLI1		E2F1		CREB1		CUX1		Bcl-6
+E2F1		ERR2		ERR2		ETS1		HNF4-alpha	C/EBPdelta	GABP alpha	E2F4		CUX1		E2F1		c-Myc
+E2F4		ETS1		ETS1		FOXJ2		IRF2		CREB1		HNF1-alpha	ERR1		DAX1		E2F4		E2F1
+ERR2		HNF4-alpha	GABP alpha	GCR-alpha	N-Myc		E2F1		HNF4-alpha	ERR2		DR1		ELF1		ESR1
+ESR1		KLF4		KLF4		GCR-beta	Oct-3/4		E2F6		N-Myc		ERR3		E2F1		ERR2		ETS1
+ETS1		LBP9		LBP9		HIF1A		SP1		EGR1		Securin		FOXP2		E2F4		ERR3		FOXM1
+FOXM1		LXR-alpha	N-Myc		LBP-1B		SRF		ERR2		SMAD2		Oct-3/4		ENO1		ESR1		GABP alpha
+GABP alpha	MTF-1		NANOG		LBP9		ZFX		ESR1		STAT3		ZFX		ERR2		FOXM1		HNF1-alpha
+GATA-1		NFE2L1		NFYA		RARalpha	JMJD2A		ESR2		TCF7L2		PLU-1		ESR1		GABP alpha	HNF4-alpha
+GATA-2		Oct-2		Oct-3/4		SP1		PLU-1		ETS1		ZFX				ETS1		HES1		KLF4
+HNF3-beta	Oct-3/4		RARalpha	ZFX				FOXM1		ZNF217				FOXM1		HIF1A		LBP9
+HNF4-alpha	SALL4		SALL4		NOTCH1				FOXO3A		ZNF263				HNF4-alpha	HNF4-alpha	MYOG
+MYOD		SR3		SOX2		PLU-1				GABP alpha					JunD		HNF6		NANOG
+NANOG		STAT1		ZFX						GATA-2						NANOG		Max		NF-Y
+NFIC		STAT3		Beta-catenin					HNF1-alpha					NF-AT2		NF-kB1		NFIC
+NFYA		YB-1		PLU-1						JunD						NFYA		Oct-3/4		Oct-3/4
+NRSF		ZFX								NF-AT4						Oct-2		Pdx-1		p63
+p53										NFIC						Oct-3/4		SMAD3		RARalpha
+SMAD3										NFYA						p53		SREBP1		REV-ERBalpha
+SP1										NRF1						RBP-J kappa	TCF7L2		RXRA
+SP3										NRSF						REX1		TEF-1		SMAD3
+TCF7L2										Oct-1						SMAD3		TRA/RXRa	SOX2
+YB-1										Oct-2						SP1		ZFX		SP3
+ZNF217										SP1						STAT1		ZNF143		STAT6
+JMJD2A										SRF						USF2		ZNF263		TCF7L1
+PLU-1										ZFX						ZFX		PLU-1		ZFX
+										ZNF148						NOTCH1				ZNF143
+										ZNF263						PLU-1				HDAC3
+										ZNF42										PLU-1
+										JMJDA2A
+										NOTCH1
+										PLU-1

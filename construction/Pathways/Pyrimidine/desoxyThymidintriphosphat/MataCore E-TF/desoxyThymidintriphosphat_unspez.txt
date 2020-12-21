@@ -1,0 +1,57 @@
+DCTD		TYMS		DTYMK		NME6
+
+Bcl-6		E2F1		c-Myc		Bcl-6
+c-Myc		GABP		CREB1		c-Myc
+C/EBPgamma	GABP alpha	CUX1		CTCF
+CUX1		SP1		E2F1		E2F1
+DEC1		TFCP2		E2F4		E2F4
+E2F1		Beta-arrestin1	E2F5		E2F6
+ERR2		CHD8		ESR1		Elk-1
+IRF4		ESR1		ETS1		ETS1
+IRF5		HDAC1		FOXM1		GABP alpha
+KLF4		AFX1		FOXO3A		RARalpha
+N-Myc		Androgen receptor	GABP alpha	YB-1
+NANOG		AP-1		GATA-2		TIF1-beta
+NF-kb2		ATF-2		HNF1-alpha
+NRSF		c-Myb		Max
+SALL4		c-Myc		N-Myc
+SOX2		C/EBPzeta	NF-Y
+YB-1		C/EBPalpha	NFIC
+ING4		COUP-TFII	NFYA
+PLU-1		DP1		Oct-3/4
+TIF1-beta	E2F3		RARalpha
+		E2F4		STAT1
+		E2F5		JMJD2A
+		ETS1		TIF1-beta
+		FLI1
+		FOXJ1
+		FOXM1
+		HIF1A
+		HMGI/Y
+		HNF3-alpha
+		HNF3-beta
+		HNF4-alpha
+		IRF1
+		IRF2
+		IRF8
+		LBP9
+		Lef-1
+		LXR-alpha
+		N-Myx
+		NF_AT4
+		NF-Y
+		Oct-2
+		RARalpha
+		REV-ERB-BETA
+		RXRA
+		SP3
+		SRF
+		TFE3
+		USF1
+		USF1/USF2 complex
+		USF2
+		YY1
+		BRG1
+		HP1gamma
+		PLU-1
+		Suv39H1

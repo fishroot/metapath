@@ -1,0 +1,227 @@
+07/12/2012 13:59:04 INFO mp_metapath -> model: create new model
+07/12/2012 13:59:04 INFO mp_metapath -> model:  * model configuration
+07/12/2012 13:59:04 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 13:59:04 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 13:59:04 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 13:59:06 INFO mp_metapath -> save: save model to file: './reports/default/model-134209434441/model-GRBM.mp'
+07/12/2012 13:59:07 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 13:59:07 INFO mp_analyse -> run:  * create report
+07/12/2012 13:59:08 INFO mp_analyse -> run:  * plot graph
+07/12/2012 13:59:09 INFO mp_analyse -> run:  * plot knockout
+07/12/2012 14:00:19 INFO mp_analyse -> run:  * plot network
+07/12/2012 14:00:20 INFO mp_analyse -> run:  * plot correlation
+07/12/2012 14:30:15 INFO mp_metapath -> model: create new model
+07/12/2012 14:30:15 INFO mp_metapath -> model:  * model configuration
+07/12/2012 14:30:15 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 14:30:15 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 14:30:15 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 14:30:16 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:30:16 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:30:17 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:30:17 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:31:25 INFO mp_metapath -> model: create new model
+07/12/2012 14:31:25 INFO mp_metapath -> model:  * model configuration
+07/12/2012 14:31:25 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 14:31:25 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 14:31:25 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 14:31:25 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:31:25 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:31:27 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:31:27 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:46:24 INFO mp_metapath -> model: create new model
+07/12/2012 14:46:24 INFO mp_metapath -> model:  * model configuration
+07/12/2012 14:46:24 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 14:46:24 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 14:46:24 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 14:46:24 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:46:24 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:46:26 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:46:26 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:49:38 INFO mp_metapath -> model: create new model
+07/12/2012 14:49:38 INFO mp_metapath -> model:  * model configuration
+07/12/2012 14:49:38 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 14:49:38 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 14:49:38 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 14:49:38 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:49:38 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:49:40 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:49:40 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:49:40 ERROR mp_analyse -> plot_graph: could not plot model graph: "linkenergy"is no valid weight-type
+07/12/2012 14:54:30 INFO mp_metapath -> model: create new model
+07/12/2012 14:54:30 INFO mp_metapath -> model:  * model configuration
+07/12/2012 14:54:30 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 14:54:30 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 14:54:30 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 14:54:30 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:54:30 INFO mp_analyse -> run:  * plot graph
+07/12/2012 14:54:32 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 14:54:32 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:02:43 INFO mp_metapath -> model: create new model
+07/12/2012 15:02:43 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:02:43 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 15:02:43 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 15:02:43 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 15:02:43 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:02:43 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:03:20 INFO mp_metapath -> model: create new model
+07/12/2012 15:03:20 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:03:20 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-all'
+07/12/2012 15:03:20 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset4.npz"
+07/12/2012 15:03:20 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 15:03:20 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:03:20 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:03:22 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:03:22 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:14:11 INFO mp_metapath -> model: create new model
+07/12/2012 15:14:11 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:14:11 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 15:14:11 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset1.npz"
+07/12/2012 15:14:11 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 15:14:11 INFO mp_metapath -> optimize: optimize model:
+07/12/2012 15:14:11 INFO mp_metapath -> optimize:  * starting time: Thu, 12 Jul 2012 15:14:11
+07/12/2012 15:15:26 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:15:26 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:15:28 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:15:28 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:15:29 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:15:29 INFO mp_analyse -> run:  * create report
+07/12/2012 15:18:33 INFO mp_metapath -> model: create new model
+07/12/2012 15:18:33 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:18:33 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 15:18:33 INFO mp_model -> initialize:  * found cachefile: "/home/michl/Projects/metapath/cache/1514820550/data-network5-dataset1.npz"
+07/12/2012 15:18:33 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 15:18:33 INFO mp_metapath -> optimize: optimize model:
+07/12/2012 15:18:33 INFO mp_metapath -> optimize:  * starting time: Thu, 12 Jul 2012 15:18:33
+07/12/2012 15:31:20 INFO mp_metapath -> model: create new model
+07/12/2012 15:31:20 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:31:20 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 15:31:21 INFO mp_model -> initialize:  * search network nodes in dataset and exclude missing
+07/12/2012 15:32:33 INFO mp_metapath -> model: create new model
+07/12/2012 15:32:33 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:32:33 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 15:32:33 INFO mp_model -> initialize:  * found cachefile: "/home/pmichl/Desktop/metapath/cache/232710022/data-network5-dataset1.npz"
+07/12/2012 15:32:33 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 15:32:33 INFO mp_metapath -> optimize: optimize model:
+07/12/2012 15:32:33 INFO mp_metapath -> optimize:  * starting time: Thu, 12 Jul 2012 15:32:33
+07/12/2012 15:39:03 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:39:03 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:43:47 INFO mp_metapath -> model: create new model
+07/12/2012 15:43:47 INFO mp_metapath -> model:  * model configuration
+07/12/2012 15:43:47 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 15:43:47 INFO mp_model -> initialize:  * found cachefile: "/home/pmichl/Desktop/metapath/cache/232710022/data-network5-dataset1.npz"
+07/12/2012 15:43:47 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 15:43:47 INFO mp_metapath -> optimize: optimize model:
+07/12/2012 15:43:47 INFO mp_metapath -> optimize:  * starting time: Thu, 12 Jul 2012 15:43:47
+07/12/2012 15:51:24 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:51:24 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:51:34 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:51:34 INFO mp_analyse -> run:  * plot graph
+07/12/2012 15:51:42 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:51:42 INFO mp_analyse -> run:  * create report
+07/12/2012 15:51:44 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:51:44 INFO mp_analyse -> run:  * plot knockout
+07/12/2012 15:53:18 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:53:18 INFO mp_analyse -> run:  * plot correlation
+07/12/2012 15:53:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 15:53:23 INFO mp_analyse -> run:  * plot network
+07/12/2012 16:17:49 INFO mp_metapath -> model: create new model
+07/12/2012 16:17:49 INFO mp_metapath -> model:  * model configuration
+07/12/2012 16:17:49 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 16:17:49 INFO mp_model -> initialize:  * found cachefile: "/home/pmichl/Desktop/metapath/cache/232710022/data-network5-dataset1.npz"
+07/12/2012 16:17:49 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 16:17:49 INFO mp_metapath -> optimize: optimize model:
+07/12/2012 16:17:49 INFO mp_metapath -> optimize:  * starting time: Thu, 12 Jul 2012 16:17:49
+07/12/2012 16:23:24 INFO mp_metapath -> model: create new model
+07/12/2012 16:23:24 INFO mp_metapath -> model:  * model configuration
+07/12/2012 16:23:24 INFO mp_metapath -> model:    class: 'GRBM', network: 'Smallest', dataset: 'TCGA-normal'
+07/12/2012 16:23:24 INFO mp_model -> initialize:  * found cachefile: "/home/pmichl/Desktop/metapath/cache/232710022/data-network5-dataset1.npz"
+07/12/2012 16:23:24 INFO mp_dataset -> normalize:  * using plain dataset (no normalization)
+07/12/2012 16:23:24 INFO mp_metapath -> optimize: optimize model:
+07/12/2012 16:23:24 INFO mp_metapath -> optimize:  * starting time: Thu, 12 Jul 2012 16:23:24
+07/12/2012 16:30:51 INFO mp_metapath -> save: save model to file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:30:52 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:30:52 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:31:01 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:31:01 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:31:09 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:31:09 INFO mp_analyse -> run:  * create report
+07/12/2012 16:31:10 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:31:10 INFO mp_analyse -> run:  * plot knockout
+07/12/2012 16:32:21 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:32:21 INFO mp_analyse -> run:  * plot correlation
+07/12/2012 16:32:26 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:32:26 INFO mp_analyse -> run:  * plot network
+07/12/2012 16:40:22 ERROR mp_metapath -> load: could not open file: '/reports/default/model-134210344929/model-GRBM.mp'!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:23 ERROR mp_analyse -> run: could not run analysis: 'model' has to be mp_model instance!
+07/12/2012 16:40:46 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:40:47 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:47 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:40:57 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:40:57 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:41:06 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:41:06 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:41:14 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:41:14 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:41:22 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:41:22 INFO mp_analyse -> run:  * create report
+07/12/2012 16:41:23 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:41:23 INFO mp_analyse -> run:  * plot knockout
+07/12/2012 16:42:38 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:42:38 INFO mp_analyse -> run:  * plot correlation
+07/12/2012 16:42:43 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:42:43 INFO mp_analyse -> run:  * plot network
+07/12/2012 16:44:28 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:44:48 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:44:49 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:44:49 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:45:15 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:45:17 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:45:17 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:46:26 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:46:27 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:46:27 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:46:49 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:46:51 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:46:51 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:47:01 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:47:01 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:47:10 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:47:10 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:47:17 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:47:17 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:47:26 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:47:26 INFO mp_analyse -> run:  * create report
+07/12/2012 16:47:28 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:47:28 INFO mp_analyse -> run:  * plot knockout
+07/12/2012 16:49:25 INFO mp_metapath -> load: load model from file: './reports/default/model-134210344929/model-GRBM.mp'
+07/12/2012 16:49:26 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:49:26 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:49:34 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:49:34 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:49:42 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:49:42 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:49:48 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:49:48 INFO mp_analyse -> run:  * plot graph
+07/12/2012 16:49:55 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:49:55 INFO mp_analyse -> run:  * create report
+07/12/2012 16:49:57 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:49:57 INFO mp_analyse -> run:  * plot knockout
+07/12/2012 16:51:12 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:51:12 INFO mp_analyse -> run:  * plot correlation
+07/12/2012 16:51:16 INFO mp_metapath -> analyse: analyse model:
+07/12/2012 16:51:16 INFO mp_analyse -> run:  * plot network

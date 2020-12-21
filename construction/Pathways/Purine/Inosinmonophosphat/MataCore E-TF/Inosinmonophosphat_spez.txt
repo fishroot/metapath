@@ -1,0 +1,6 @@
+PPAT		GART		PFAS		PAICS		ADSL		ATIC
+
+c-Myc						c-Myc		c-Myc
+NRF1						ESR1		CREB1
+SP1						NRF1		GABP
+SREBP1						SP1

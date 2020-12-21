@@ -1,0 +1,465 @@
+import logging
+import networkx as nx
+import os
+import time
+
+class mp_network:
+    
+    id         = None
+    logger     = None
+    cfg        = {}
+    node_types = []
+    edge_types = []
+    graph      = None
+
+    def __init__(self, config = None):
+        
+        # initialize id
+        self.id = int(time.time() * 100)
+        
+        # initialize logger
+        self.logger = logging.getLogger('metapath')
+        
+        self.node_types = ['e', 'tf', 's']
+        self.edge_types = [('e', 'tf'), ('s', 'tf')]
+        
+        # create empty network instance if no configuration is given
+        if config == None:
+            return
+
+        self.cfg = config
+        self.update()
+        
+    #
+    # create NetworkX graph object
+    #
+
+    def update(self,
+        nodelist = {'type': None, 'list': []},
+        edgelist = {'type': (None, None), 'list': []}):
+        
+        # update node list from function parameter
+        if nodelist['type'] in self.node_types:
+            self.cfg['nodes'][nodelist['type']] = nodelist['list']
+
+        # update edge list from function parameter
+        if edgelist['type'] in self.edge_types:
+            edge_type = edgelist['type'][0] + '-' + edgelist['type'][1]
+            self.cfg['edges'][edge_type] = edgelist['list']
+
+        # filter edges to valid nodes
+        for src_type, tgt_type in self.edge_types:
+            edge_type = src_type + '-' + tgt_type
+            filtered_edges = []
+            for src, tgt in self.cfg['edges'][edge_type]:
+                if not src in self.cfg['nodes'][src_type]:
+                    continue
+                if not tgt in self.cfg['nodes'][tgt_type]:
+                    continue
+                filtered_edges.append((src, tgt))
+            self.cfg['edges'][edge_type] = filtered_edges
+
+        # reset nodes, edges and name of graph
+        try:
+            self.graph.clear()
+            self.graph['name'] = self.cfg['name']
+        except:
+            self.graph = nx.Graph(name = self.cfg['name'])
+
+        # add nodes
+        sort_id = 0
+        for type_id, type in enumerate(self.node_types):
+            for type_node_id, node in enumerate(self.cfg['nodes'][type]):
+                id = type + ':' + node
+                
+                if id in self.graph.nodes():
+                    continue
+                
+                self.graph.add_node(
+                    id,
+                    label = node,
+                    sort_id = sort_id,
+                    params = {
+                        'type': type,
+                        'type_id': type_id,
+                        'type_node_id': type_node_id})
+                    
+                sort_id += 1
+        
+        # add edges
+        sort_id = 0
+        for type_id, (src_type, tgt_type) in enumerate(self.edge_types):
+            edge_type = src_type + '-' + tgt_type
+            
+            if not edge_type in self.cfg['edges']:
+                self.cfg['edges'][edge_type] = []
+                continue
+            
+            for (src, tgt) in self.cfg['edges'][edge_type]:
+                src_node_id = src_type + ':' + src
+                tgt_node_id = tgt_type + ':' + tgt
+                
+                self.graph.add_edge(
+                    src_node_id, tgt_node_id,
+                    weight = 0,
+                    sort_id = sort_id,
+                    params = {'type': edge_type, 'type_id': type_id})
+                    
+                sort_id += 1
+    
+    #
+    # accessing nodes
+    #
+    
+    def nodes(self, **params):
+                
+        # filter search criteria and order entries
+        sorted_list = [None] * self.graph.number_of_nodes()
+        
+        for node, attr in self.graph.nodes(data = True):
+            if not params == {}:
+                passed = True
+                for key in params:
+                    if not key in attr['params'] \
+                        or not params[key] == attr['params'][key]:
+                        passed = False
+                        break
+                if not passed:
+                    continue
+            
+            sorted_list[attr['sort_id']] = node
+                
+        # filter empty nodes
+        filtered_list = []
+        for node in sorted_list:
+            if node:
+                filtered_list.append(node)
+
+        return filtered_list
+    
+    def node_labels(self, **params):
+        list = []
+        for node in self.nodes(**params):
+            list.append(self.graph.node[node]['label'])
+        
+        return list
+    
+    def node(self, node):
+        return self.graph.node[node]
+    
+    #
+    # accessing edges
+    #
+    
+    def edges(self, **params):
+                
+        # filter search criteria and order entries
+        sorted_list = [None] * self.graph.number_of_edges()
+
+        for src, tgt, attr in self.graph.edges(data = True):
+            if not params == {}:
+                
+                passed = True
+                for key in params:
+                    if not key in attr['params'] \
+                        or not params[key] == attr['params'][key]:
+                        passed = False
+                        break
+                if not passed:
+                    continue
+            
+            sorted_list[attr['sort_id']] = (src, tgt)
+                
+        # filter empty nodes
+        filtered_list = []
+        for edge in sorted_list:
+            if edge:
+                filtered_list.append(edge)
+
+        return filtered_list
+    
+    def edge_labels(self, **params):
+        list = []
+        for src, tgt in self.edges(**params):
+            src_label = self.graph.node[src]['label']
+            tgt_label = self.graph.node[tgt]['label']
+            
+            list.append((src_label, tgt_label))
+        
+        return list
+    
+    #
+    # get / set
+    #
+    
+    def get(self):
+
+        return {
+            'id': self.id,
+            'cfg': self.cfg,
+            'node_types': self.node_types,
+            'edge_types': self.edge_types,
+            'graph': self.graph
+        }
+    
+    def set(self, **params):
+        
+        if 'id' in params:
+            self.id = params['id']
+        if 'cfg' in params:
+            self.cfg = params['cfg']
+        if 'node_types' in params:
+            self.node_types = params['node_types']
+        if 'edge_types' in params:
+            self.edge_types = params['edge_types']
+        if 'graph' in params:
+            self.graph = params['graph']
+        
+        return True
+    
+    
+##    def get_node_labels(self, params = {}, type = None, type_id = None):
+##    
+##        nodes = self.get_nodes(type = type, type_id = type_id, params}
+
+        
+##        self.update(
+##            e = config['e'], s = config['s'], tf = config['tf'],
+##            edges = config['s-tf'] + config['e-tf'])
+        
+##    def update(self, e = [], tf = [], s = [], edges = []):
+##        
+##        # update nodes
+##        if e and tf and s:
+##            self.node = {}
+##        
+##        nodeindex = 0
+##        if e:
+##            for node in e:
+##                id = 'e:' + node
+##                
+##                if id in self.node:
+##                    continue
+##                
+##                self.node[id] = {
+##                    'name': node,
+##                    'class': 'e',
+##                    'index': nodeindex}
+##                    
+##                nodeindex += 1
+##        else:
+##            pass
+##            #e = self.node['e']
+##        
+##        
+##        quit()
+##        
+##        if tf:
+##            self.node['tf'] = list(set(tf))
+##        else:
+##            tf = self.node['tf']
+##                
+##        if s:
+##            self.node['s'] = list(set(s))
+##        else:
+##            s = self.node['s']
+##
+##        self.nodes = list(set(s + e + tf))
+##        
+##        # update edges
+##        if edges:
+##            self.edges = list(set(edges))
+##
+##        edges = []
+##        for (val1, val2) in self.edges:
+##            if (val1 in self.nodes) and (val2 in self.nodes):
+##                edges.append((val1, val2))
+##        
+##        self.edges = edges
+##
+##        ## update matrices
+##        #self.update_matrices()
+##
+##        ## update graph
+##        #self.update_graph()
+
+
+    def save_graph(self, file = None, format = 'gml'):
+        if file == None:
+            self.logger.error("no save path was given")
+            quit()
+            
+        # create path if not available
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+
+        # everythink seems to be fine
+        # self.logger.info("saving graph to %s" % (file))
+        
+        if format == 'gml':
+            G = self.graph.copy()
+            nx.write_gml(G, file)
+
+    def plot(self, file = None,
+        edges = 'weights', draw_edge_labels = True, edge_threshold = 0.0,
+        nodes = 'labels', draw_node_captions = False,
+        caption = None, title = None, colors = None, dpi = 300):
+        
+        # create path if not available
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+
+        # check if python module 'pyplot' is available
+        try:
+            import matplotlib.pyplot as plt
+        except:
+            self.logger.critical("could not import python module 'pyplot'")
+            quit()
+
+        import numpy as np
+            
+        # everything seems to be fine
+        ## self.logger.info("saving graph plot to %s" % (file))
+
+        # calculate sizes
+        zoom = 1
+        scale = min(250.0 / max(
+            len(self.node['e']), len(self.node['tf']), len(self.node['s'])), 30.0)
+        
+        graph_node_size = scale ** 2
+        graph_font_size = 0.4 * scale
+        graph_caption_factor = 0.5 + 0.003 * scale
+        graph_line_width = 0.5
+
+        # calculate node positions for 'stack layout'
+        pos = {}
+        for node, attr in self.graph.nodes(data = True):
+            i = 1.0 / len(self.node[attr['type']])
+            x = (self.node[attr['type']].index(attr['label']) + 0.5) * i
+            y = ['e', 'tf', 's'].index(attr['type']) * 0.5
+            pos[node] = (x, y)
+
+        # calculate node caption positions for 'stack layout'
+        pos_caption = {}
+        for node, attr in self.graph.nodes(data = True):
+            i = 1.0 / len(self.node[attr['type']])
+            x = (self.node[attr['type']].index(attr['label']) + 0.5) * i
+            y = (['e', 'tf', 's'].index(attr['type']) - 1) * graph_caption_factor + 0.5
+            pos_caption[node] = (x, y)
+
+        # create figure object
+        fig = plt.figure()
+
+        # draw labeled nodes
+        for node, attr in self.graph.nodes(data = True):
+            
+            # calculate weight sum of node
+            if edges == 'weights':
+                weight_sum = 0
+                for (n1, n1, edge_attr) in self.graph.edges(nbunch = [node], data = True):
+                    weight_sum += edge_attr['weight']
+                weight_sum = min(0.01 + 0.3 * weight_sum, 1)
+            elif edges == 'adjacency':
+                weight_sum = 1
+            
+            # calculate rgba-color of node
+            c = 1 - weight_sum
+            if colors == None or colors == 'colors':
+                color = {
+                    's': (1, c, c, 1),
+                    'tf': (c, 1, c,  1),
+                    'e': (1, 1, c, 1)
+                }[attr['type']]
+            elif colors == 'grey':
+                color = (0.3 + 2 * c / 3, 0.3 + 2 * c / 3, 0.3 + 2 * c / 3, 1)
+            
+            # draw node
+            nx.draw_networkx_nodes(
+                self.graph, pos,
+                node_size = graph_node_size,
+                linewidths = graph_line_width,
+                nodelist = [node],
+                node_shape = 'o',
+                #alpha = weight_sum,
+                node_color = color)
+
+            # draw node label
+            node_font_size = 1.5 * graph_font_size / np.sqrt(max(len(node) - 1, 1))
+            nx.draw_networkx_labels(
+                self.graph, pos,
+                font_size = node_font_size,
+                labels = {node: attr['label']},
+                font_weight = 'normal')
+            
+            # draw node caption
+            if draw_node_captions and not attr['type'] == 'tf':
+                approx = ' $' + '%d' % (100 * attr['approx']) + '\%$'
+                nx.draw_networkx_labels(
+                    self.graph, pos_caption,
+                    font_size = 0.65 * graph_font_size,
+                    labels = {node: approx},
+                    font_weight = 'normal')
+
+        # draw labeled edges
+        if edges == 'weights':
+            for (v, h) in self.graph.edges():
+                if colors == None or colors == 'colors':
+                    if self.graph.edge[v][h]['value'] < 0:
+                        color = 'red'
+                    else:
+                        color = 'green'
+                elif colors == 'grey':
+                    color = 'black'
+                        
+                if self.graph.edge[v][h]['weight'] > edge_threshold:
+                    nx.draw_networkx_edges(
+                        self.graph, pos,
+                        width = self.graph.edge[v][h]['weight'] * graph_line_width,
+                        edgelist = [(v, h)],
+                        edge_color = color,
+                        alpha = 1)
+                        
+                    if draw_edge_labels:
+                        size = graph_font_size / 1.5
+                        label = ' $' + ('%.2g' % (np.abs(self.graph.edge[v][h]['value']) * 100)) + '$'
+                        nx.draw_networkx_edge_labels(
+                            self.graph, pos,
+                            edge_labels = {(v, h): label},
+                            font_color = color,
+                            clip_on = False,
+                            font_size = size, font_weight = 'normal')
+        elif edges == 'adjacency':
+            for (v, h) in self.graph.edges():
+                nx.draw_networkx_edges(
+                    self.graph, pos,
+                    width = 1 * graph_line_width,
+                    edgelist = [(v, h)],
+                    alpha = 1)
+
+        # draw title
+        if title == None:
+            title = self.name
+        plt.figtext(.5, .92, title, fontsize = 10, ha = 'center')
+
+        # draw caption
+        if caption == None:
+            if edges == 'weights':
+                label_text = r'$\mathbf{Network:}\,\mathrm{%s}$' % (self.graph)
+            elif edges == 'adjacency':
+                label_text = r'$\mathbf{Network:}\,\mathrm{%s}$' % (self.graph)
+            plt.figtext(.5, .06, label_text, fontsize = 10, ha = 'center')
+        else:
+            plt.figtext(.5, .06, caption, fontsize = 10, ha = 'center')
+
+        plt.axis('off')
+        
+        # save plot or show
+        if file == None:
+            plt.show()
+        else:
+            plt.savefig(file, dpi = dpi)
+        
+        # clear current figure object and release memory
+        plt.clf()
+        plt.close(fig)
+    

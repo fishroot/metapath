@@ -1,0 +1,46 @@
+# MetaPath configuration
+# BCAA-Isoleucin
+
+[network]
+file = ./network/BCAA/bcat1+pdh1.ini
+file_format = ini
+
+[dataset]
+file = ./data/GBM/tcga_normal.txt
+file_format = csv
+file_format_options:
+  delimiter_ascii = 9,
+  data_type = 'float',
+  include_labels = 'yes',
+  label_format = 'hgu133a'
+
+[machine]
+machine = gbrbm
+training_steps = 2
+create_plots = yes
+plot_points = 300
+init:
+  std_dev = 0.25,
+  weight_distribution = 0.3
+step_1:
+  name = 'parameter normalization',
+  method = 'cd',
+  epochs = 10000,
+  learning_rate = 0.0001,
+  optima_detection = 'none'
+step_2:
+  name = 'scan for optima',
+  method = 'cd',
+  epochs = 200000,
+  learning_rate = 0.00005,
+  optima_detection = 'single'
+step_3:
+  name = 'fine tuning',
+  method = 'ml',
+  sampling_steps = 20,
+  sampling_stat = 10,
+  epochs = 1000,
+  learning_rate = 0.00001,
+  optima_detection = 'single'
+  
+

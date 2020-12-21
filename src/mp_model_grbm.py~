@@ -1,0 +1,830 @@
+import numpy as np
+import logging
+import os
+
+class GRBM:
+    
+    def __init__(self, visible = [], hidden = [], edges = [], init = {}, data = None):
+        
+        # initialize logger
+        self.logger = logging.getLogger('metapath')
+        
+        # copy init configuration
+        if init:
+            self.init = init
+        else:
+            self.init = {}
+        
+        # configure network
+        network_configured = False
+        if visible and hidden and edges:
+            network_configured = self.configure_network(visible, hidden, edges)
+        
+        # configure training data
+        dataset_configured = False
+        if not data == None:
+            dataset_configured = self.configure_dataset(data)
+        
+        # initialize params
+        if network_configured and dataset_configured:
+            self.initialize(data)
+    
+    #
+    # set network specific dimensions
+    #
+    
+    def configure_network(self, visible, hidden, edges):
+        
+        # init visible and hidden units
+        self.v = {
+            'label': visible,
+            'size': len(visible)}
+        self.h = {
+            'label': hidden,
+            'size': len(hidden)}
+        
+        # create (visible x hidden) adjacency matrix
+        A = np.empty([len(visible), len(hidden)], dtype = bool)
+        for i, v in enumerate(visible):
+            for j, h in enumerate(hidden):
+                A[i, j] = (v, h) in edges or (h, v) in edges
+    
+        # dim adjacency and weight matrix
+        self.A = A # bool
+        self.W = 1.0 * A # float
+        
+        return True
+
+    #
+    # set dataset specific dimensions
+    #
+
+    def configure_dataset(self, data):
+    
+        # configure data dimensions
+        self.v['data_size'] = data.shape[0]
+        self.v['data_mean'] = np.mean(data, axis = 0).reshape(1, self.v['size'])
+        self.v['data_sdev'] = np.std(data, axis = 0).reshape(1, self.v['size'])
+        
+        return True
+
+    #
+    # MODEL PARAMETER INITIALIZATION
+    #
+    
+    #
+    # initialize all parameters to data
+    #
+
+    def initialize(self, data):
+        
+        # initialize model parameters
+        self.W = self.init_W(data)
+        self.v['bias'] = self.init_v_bias(data)
+        self.v['lvar'] = self.init_v_lvar(data)
+        self.h['bias'] = self.init_h_bias(data)
+        
+    # parameter:    W
+    # description:  weight matrix with normal distributed random values
+    # dimensions:   (visible, hidden)
+    
+    def init_W(self, data):
+        sdev = np.std(data, axis = 0).reshape(1, self.v['size'])
+        weights = self.A * np.random.normal(np.zeros(shape = self.A.shape),
+            self.init['weight_distribution'] * sdev.T)
+        return weights
+
+    # parameter:    v_bias
+    # description:  init visible units biases with mean values of data
+    # dimensions:   (1, visible)
+    
+    def init_v_bias(self, data):
+        mean = np.mean(data, axis = 0).reshape(1, self.v['size'])
+        return mean
+
+    # parameter:    v_lvar
+    # description:  init visible units logarithmic variances with given standard deviation
+    # dimensions:   (1, visible)
+    
+    def init_v_lvar(self, data):
+        return np.log((self.init['std_dev'] * np.ones((1, self.v['size']))) ** 2)
+
+    # parameter:    h_bias
+    # description:  init hidden units biases with zeros
+    # dimensions:   (1, hidden)
+    
+    def init_h_bias(self, data):
+        return np.zeros((1, self.h['size']))
+
+    #
+    # SAMPLER
+    #
+
+    def run(self, data, **config):
+        
+        # configure data dimensions
+        self.configure_dataset(data)
+        
+        # check necessary parameters
+        if not 'updates' in config:
+            self.logger.warning("skipping optimization: missing parameter 'updates'")
+            return False
+        if not 'update_rate' in config:
+            self.logger.warning("skipping optimization: missing parameter 'update_rate'")
+            return False
+        if not 'sampling_algorithm' in config:
+            self.logger.warning("skipping optimization: missing parameter 'sampling_algorithm'")
+            return False
+        
+        # set default parameters
+        default_config = {
+            'sampling_steps': 1, 'sampling_iterations': 1, 'update_factor_weights': 1.0,
+            'update_factor_vbias': 0.1, 'update_factor_vlvar': 0.01, 'update_factor_hbias': 0.1 }
+        for parameter in default_config:
+            if not parameter in config:
+                config[parameter] = default_config[parameter]
+                
+        # update rates
+        update_rate = {
+            'W': config['update_rate'] * config['update_factor_weights'],
+            'v_bias': config['update_rate'] * config['update_factor_vbias'],
+            'v_lvar': config['update_rate'] * config['update_factor_vlvar'],
+            'h_bias': config['update_rate'] * config['update_factor_hbias']}
+
+        # reference sampling function
+        self.sample = {
+            'cd': lambda data:
+                self.sample_cd1(data),
+            'cd-k': lambda data:
+                self.sample_cdk(data,
+                    k = config['sampling_steps'], m = config['sampling_iterations']),
+            'ml': lambda data:
+                self.sample_ml(data,
+                    k = config['sampling_steps'], m = config['sampling_iterations'])
+        }[config['sampling_algorithm']]
+
+        # initialize plot density
+        #self.create_plots = create_plots
+        #if self.create_plots:
+        #    self.plot.set_density(updates, plot_points)
+
+        # iterative optimization
+        for epoch in xrange(1, config['updates'] + 1):
+            # sample from data and update params
+            v_data, h_data, v_model, h_model = self.sample(data)
+            self.update(v_data, h_data, v_model, h_model, update_rate)
+            #self.epoch += 1
+
+    #
+    # SAMPLING ALGORITHMS
+    #
+
+    #
+    # (1-step) contrastive divergency sampling (CD)
+    #
+
+    def sample_cd1(self, v_data):
+        h_data = self.h_expect(v_data)
+        v_model = self.v_expect(self.h_sample(h_data))
+        h_model = self.h_expect(v_model)
+
+        return v_data, h_data, v_model, h_model
+
+    #
+    # k-step contrastive divergency sampling (CD-k)
+    #
+
+    def sample_cdk(self, v_data, k = 1, m = 1):
+        h_data = self.h_expect(v_data)
+        
+        # calculate v_model and h_model
+        v_model = np.zeros(shape = v_data.shape)
+        h_model = np.zeros(shape = h_data.shape)
+        for i in range(m):
+            for j in range(k):
+                
+                # calculate h_sample from h_expect
+                # in first sampling step init h_sample with h_data
+                if j == 0:
+                    h_sample = self.h_sample(h_data)
+                else:
+                    h_sample = self.h_sample(h_expect)
+
+                # calculate v_expect from h_sample
+                v_expect = self.v_expect(h_sample)
+
+                # calculate h_expect from v_sample
+                # in last sampling step use v_expect
+                # instead of v_sample to reduce noise
+                if j + 1 == k:
+                    h_expect = self.h_expect(v_expect)
+                else:
+                    v_sample = self.v_sample(v_expect)
+                    h_expect = self.h_expect(v_sample)
+
+            v_model += v_expect / m
+            h_model += h_expect / m
+
+        return v_data, h_data, v_model, h_model
+
+    #
+    # maximum likelihood sampling (ML)
+    # 
+
+    def sample_ml(self, v_data, k = 3, m = 100):
+        h_data = self.h_expect(v_data)
+        
+        # calculate v_model and h_model
+        v_model = np.zeros(shape = v_data.shape)
+        h_model = np.zeros(shape = h_data.shape)
+        for i in range(m):
+            for step in range(1, k + 1):
+                
+                # calculate h_sample from h_expect
+                # in first sampling step init h_sample with random values
+                if step == 1:
+                    h_sample = self.h_random()
+                else:
+                    h_sample = self.h_sample(h_expect)
+
+                # calculate v_expect from h_sample
+                v_expect = self.v_expect(h_sample)
+
+                # calculate h_expect from v_sample
+                # in last sampling step use v_expect
+                # instead of v_sample to reduce noise
+                if step == k:
+                    h_expect = self.h_expect(v_expect)
+                else:
+                    v_sample = self.v_sample(v_expect)
+                    h_expect = self.h_expect(v_sample)
+
+            v_model += v_expect / m
+            h_model += h_expect / m
+
+        return v_data, h_data, v_model, h_model
+
+    #
+    # UNIT RECONSTRUCTION
+    #
+
+    # input:    samples of hidden units
+    # output:       expected values for visible units
+    # dimensions:   (data, visible)
+    
+    def v_expect(self, h_sample):
+        return self.v['bias'] + np.dot(h_sample, (self.W * self.A).T)
+    
+    # input:    expected values for visible units
+    # output:   samples of visible units (gauss distribution)
+    # dimensions:   (data, visible)
+    
+    def v_sample(self, v_expect):
+        return np.random.normal(v_expect, np.exp(self.v['lvar']))
+    
+    # input:    none
+    # output:   random samples of visible units (gauss distribution)
+    # dimensions:   (data, visible)
+    
+    def v_random(self): # REVISIT THIS FUNCTION!! MAYBE IT'S BUGGY
+        return np.random.normal(self.v['bias'] + \
+            np.dot(self.h_random, (self.W * self.A).T), np.exp(self.v['lvar']))
+
+    # input:    samples of visible units
+    # output:   expected values of hidden units
+    # dimensions:   (data, hidden)
+    
+    def h_expect(self, v_sample):
+        return 1.0 / (1 + np.exp(-(self.h['bias'] +
+            np.dot(v_sample / np.exp(self.v['lvar']), self.W * self.A))))
+
+    # input:    expected values of hidden units
+    # output:   samples of hidden units (bernoulli distribution)
+    # dimensions:   (data, hidden)
+    
+    def h_sample(self, h_expect):
+        return h_expect > np.random.rand(h_expect.shape[0], h_expect.shape[1])
+
+    # input:    none
+    # output:   random samples of hidden units (bernoulli distribution)
+    # dimensions:   (data, hidden)
+    
+    def h_random(self):
+        return 1.0 / (1 + np.exp(-(self.h['bias']))) > \
+            np.random.rand(self.v['data_size'], self.h['size'])
+
+    #
+    # MODEL PARAMETER UPDATES
+    #
+
+    # update model parameters
+    def update(self, v_data, h_data, v_model, h_model, update_rate):
+        delta = {}
+        delta['W'] = self.delta_W(v_data, h_data, v_model, h_model)
+        delta['v_bias'] = self.delta_v_bias(v_data, v_model)
+        delta['h_bias'] = self.delta_h_bias(h_data, h_model)
+        delta['v_lvar'] = self.delta_v_lvar(v_data, h_data, v_model, h_model)
+        
+        self.W += update_rate['W'] * delta['W']
+        self.v['bias'] += update_rate['v_bias'] * delta['v_bias']
+        self.h['bias'] += update_rate['h_bias'] * delta['h_bias']
+        self.v['lvar'] += update_rate['v_lvar'] * delta['v_lvar']
+
+    # parameter:    W
+    # description:  update rule for weight matrix
+    # dimensions:   (visible, hidden)
+
+    def delta_W(self, v_data, h_data, v_model, h_model):
+        data = np.dot(v_data.T, h_data) / v_data.shape[0]
+        model = np.dot(v_model.T, h_model) / v_model.shape[0]
+        return (data - model) * self.A / np.exp(self.v['lvar']).T
+
+    # parameter:    v_bias
+    # description:  update rule for visible units biases
+    # dimensions:   (1, visible)
+
+    def delta_v_bias(self, v_data, v_model):
+        data = np.mean(v_data, axis = 0).reshape(self.v['bias'].shape)
+        model = np.mean(v_model, axis = 0).reshape(self.v['bias'].shape)
+        return (data - model) / np.exp(self.v['lvar'])
+    
+    # parameter:    v_lvar
+    # description:  update rule for visible units logarithmic variance
+    # dimensions:   (1, visible)
+    
+    def delta_v_lvar(self, v_data, h_data, v_model, h_model):
+        data = np.mean(0.5 * (v_data - self.v['bias']) ** 2 - v_data *
+            np.dot(h_data, self.W.T), axis = 0).reshape(self.v['lvar'].shape)
+        model = np.mean(0.5 * (v_model - self.v['bias']) ** 2 - v_model *
+            np.dot(h_model, self.W.T), axis = 0).reshape(self.v['lvar'].shape)
+        return (data - model) / np.exp(self.v['lvar'])
+
+    # parameter:    h_bias
+    # description:  update rule for hidden units biases
+    # dimensions:   (1, hidden)
+
+    def delta_h_bias(self, h_data, h_model):
+        data = np.mean(h_data, axis = 0).reshape(self.h['bias'].shape)
+        model = np.mean(h_model, axis = 0).reshape(self.h['bias'].shape)
+        return data - model
+   
+    #
+    # MODEL VALIDATION
+    #
+
+    # input: none
+    # output:
+    # dimensions: (1, visible)
+    def init_v_model_mean(self):
+        return self.v['data_mean']
+
+    # input: none
+    # output:
+    # dimensions: (1, hidden)
+    def init_h_model_mean(self):
+        return np.zeros((1, self.h['size']))
+
+    # input: none
+    # output: maximum likelihood expectation values
+    def update_expect_ml(self, k = 4, m = 1000):
+        
+        # calculate v_model and h_model
+        v_model = np.zeros(shape = (self.v['data_size'], self.v['size']))
+        h_model = np.zeros(shape = (self.v['data_size'], self.h['size']))
+        
+        for i in range(m):
+            for step in range(1, k + 1):
+                
+                # calculate h_sample from h_expect
+                if step == 1:
+                    h_sample = self.h_random()
+                else:
+                    h_sample = self.h_sample(h_expect)
+                    
+                # calculate v_expect from h_sample
+                v_expect = self.v_expect(h_sample)
+                
+                # calculate h_expect from v_sample
+                # in last sampling step use v_expect
+                # instead of v_sample to reduce noise
+                if step == k:
+                    h_expect = self.h_expect(v_expect)
+                else:
+                    v_sample = self.v_sample(v_expect)
+                    h_expect = self.h_expect(v_sample)
+                    
+            v_model += v_expect / m
+            h_model += h_expect / m
+            
+        v_mean = np.mean(v_model, axis = 0).reshape(1, v_model.shape[1])
+        h_mean = np.mean(h_model, axis = 0).reshape(1, h_model.shape[1])
+        
+        self.v['model_mean'] = v_mean
+        self.h['model_mean'] = h_mean
+
+    #
+    # MODEL VALIDATION
+    #
+    
+    #
+    # System Energy
+    #
+    
+    # system energy
+    def energy(self, v_data):
+        h_data = self.h_expect(v_data)
+        v_term = np.sum((v_data - self.v['bias']) ** 2 / np.exp(self.v['lvar'])) / 2
+        h_term = np.sum(h_data * self.h['bias'])
+        W_term = np.sum(v_data * np.dot(h_data, self.W.T) / np.exp(self.v['lvar']))
+        return - (v_term + h_term + W_term) / v_data.shape[0]
+
+    # description:  calculate the energy of directed links from visible to hidden
+    #
+    # dimensions:   (visible, hidden)
+
+    def link_energy(self, v_data):
+        
+        # calculate expectation values of unlinked hidden units
+        expact_nolink = 1.0 / (1 + np.exp(-(self.h['bias'])))
+
+        # calculate the impact of single links
+        knockout = {}
+        for i in range(self.v['size']):
+            for j in range(self.h['size']):
+                # calculate only linked nodes
+                if not self.A[i, j]:
+                    continue
+                
+                # calculate expectation values of single linked hidden units
+                expact_link = 1.0 / (1 + np.exp(-(self.h['bias'][0,j] \
+                    + self.W[i, j] * v_data[:,i] / self.v['lvar'][0,i])))
+                
+                # the "single link impact" is the difference of the expectation values
+                # of a hidden unit with and without a specific single link
+                knockout[(self.v['label'][i], self.h['label'][j])] = np.sign(self.W[i, j]) \
+                    * np.mean(np.abs(expact_link - expact_nolink[0, j]))
+        
+        return knockout
+
+    #
+    # Reconstruction Error and Data Approximation
+    #
+
+    # difference between data and reconstructed values
+    def v_diff(self, v_data, m = 500):
+        h_data = self.h_expect(v_data)
+    
+        # cd1-sampling from data
+        v_recon = np.ndarray(shape = (m, v_data.shape[0], v_data.shape[1]))
+        for i in range(m):
+            v_recon[i] = self.v_expect(self.h_sample(h_data))
+        
+        # calculate mean difference per (sample, unit)
+        v_model = np.mean(v_recon, axis = 0)
+        return v_data - v_model
+
+    # reconstruction error
+    def error(self, v_data):
+        return np.sqrt(np.sum(self.v_diff(v_data) ** 2))
+    
+    # reconstruction error per unit
+    def v_error(self, v_data):
+        return np.sqrt(np.sum(self.v_diff(v_data) ** 2, axis = 0))
+    
+    # data approximation
+    def approx(self, v_data):
+        return np.mean(self.v_rel_approx(v_data), axis = 0)
+    
+    # data appromation per unit relative to mean value
+    def v_abs_approx(self, v_data):
+
+        # calculate: data - model
+        v_diff = self.v_diff(v_data)
+        v_diff_norm = np.sqrt((v_diff ** 2).sum(axis = 0))
+
+        # calculate: data - mean(data)
+        v_diff_max = v_data - np.mean(v_data, axis = 0)
+        v_diff_max_norm = np.sqrt((v_diff_max ** 2).sum(axis = 0))
+        
+        # data approximation
+        return 1 - v_diff_norm / v_diff_max_norm
+
+    # data appromation per unit relative to mean value
+    def v_rel_approx(self, v_data):
+
+        # calculate: data - model
+        v_diff = self.v_diff(v_data)
+        v_diff_norm = np.sqrt((v_diff ** 2).sum(axis = 0))
+
+        # calculate: data - mean(data)
+        v_diff_max = v_data - np.mean(v_data, axis = 0)
+        v_diff_max_norm = np.sqrt((v_diff_max ** 2).sum(axis = 0))
+        
+        # data approximation
+        return 1 - v_diff_norm / v_diff_max_norm
+
+    #
+    # SIMULATION
+    #
+
+    # description:  calculate maximum likelihood expectation values
+    #
+    # dimensions:   (visible, hidden)    
+    
+    def expect_model(self, k = 1, m = 1000, data = None):
+        
+        # calculate v_model and h_model
+        v_model = np.zeros(shape = (self.v['data_size'], self.v['size']))
+        h_model = np.zeros(shape = (self.v['data_size'], self.h['size']))
+        
+        for i in range(m):
+            for step in range(1, k + 1):
+                
+                # calculate h_sample from h_expect
+                if step == 1:
+                    # if data is not given: start with random samples
+                    if data == None:
+                        h_sample = self.h_random()
+                    # else: sample from data
+                    else:
+                        h_sample = self.h_sample(self.h_expect(data))
+                    
+                else:
+                    h_sample = self.h_sample(h_expect)
+                    
+                # calculate v_expect from h_sample
+                v_expect = self.v_expect(h_sample)
+                
+                # calculate h_expect from v_sample
+                # in last sampling step use v_expect
+                # instead of v_sample to reduce noise
+                if step == k:
+                    h_expect = self.h_expect(v_expect)
+                else:
+                    v_sample = self.v_sample(v_expect)
+                    h_expect = self.h_expect(v_sample)
+                    
+            v_model += v_expect / m
+            h_model += h_expect / m
+            
+        return v_model, h_model
+
+    # description:  simulate knockout of visible units
+    #               return difference (linked - unlinked) of expected values for all other units
+    #
+    # dimensions:   (visible, visible), (visible, hidden)
+
+    def v_knockout(self, v_data):
+        
+        # initialize unit impact matrices with zeros
+        v_knockout_on_v = np.zeros(shape = (self.v['size'], self.v['data_size'], self.v['size']))
+        v_knockout_on_h = np.zeros(shape = (self.v['size'], self.v['data_size'], self.h['size']))
+        
+        # calculate expectation values with unmodified adjacency matrix
+        v_expect_link, h_expect_link = self.expect_model(data = v_data)
+        
+        # calculate the impact of each visible unit by cutting the edges
+        A = np.copy(self.A)
+        for i in range(self.v['size']):
+            self.A[i,:] = False
+            v_expect_unlink, h_expect_unlink = self.expect_model(data = v_data, k = 4, m = 5000)
+            v_knockout_on_v[i,:,:] = v_expect_link - v_expect_unlink
+            v_knockout_on_h[i,:,:] = h_expect_link - h_expect_unlink
+            self.A = np.copy(A)
+        
+        # calculate mean impact for each pair (v, v) and (v, h)
+        v_mean_impact_on_v = np.mean(v_knockout_on_v, axis = 1)
+        v_mean_impact_on_h = np.mean(v_knockout_on_h, axis = 1)
+        
+        return v_mean_impact_on_v, v_mean_impact_on_h
+    
+    # description:  simulate knockout of hidden units
+    #               return difference (linked - unlinked) of expected values for all other units
+    #
+    # dimensions:   (hidden, visible), (hidden, hidden)
+
+    def h_knockout(self, v_data):
+        
+        # initialize unit impact matrices with zeros
+        h_knockout_on_v = np.zeros(shape = (self.h['size'], self.v['data_size'], self.v['size']))
+        h_knockout_on_h = np.zeros(shape = (self.h['size'], self.v['data_size'], self.h['size']))
+        
+        # calculate expectation values with unmodified adjacency matrix
+        #v_expect_link, h_expect_link = self.expect_model(data = v_data, k = 1, m = 1000)
+        v_expect_link, h_expect_link = self.expect_model()
+        
+        # calculate the impact of each hidden unit by cutting the edges
+        A = np.copy(self.A)
+        I = np.identity(A.shape[1], dtype = bool)
+        
+        for i in range(self.h['size']):
+            self.A = np.copy(A * I[1,:])
+
+            #v_expect_unlink, h_expect_unlink = self.expect_model(data = v_data, k = 1, m = 1000)
+            v_expect_unlink, h_expect_unlink = self.expect_model()
+            h_knockout_on_v[i,:,:] = v_expect_link - v_expect_unlink
+            h_knockout_on_h[i,:,:] = h_expect_link - h_expect_unlink
+            
+        self.A = np.copy(A)
+        
+        # calculate mean impact for each pair (h, v) and (h, h)
+        h_mean_impact_on_v = np.mean(h_knockout_on_v, axis = 1)
+        h_mean_impact_on_h = np.mean(h_knockout_on_h, axis = 1)
+        
+        return h_mean_impact_on_v, h_mean_impact_on_h
+
+    # description:  simulate knockout of visible units
+    #               return new model approximation
+    #
+    # dimensions:   (visible)
+
+    def v_knockout_approx(self, v_data):
+        
+        # initialize matrices
+        v_knockout_approx = np.zeros(shape = (self.v['size']))
+        A = np.copy(self.A)
+        K = (1 - np.identity(self.v['size'])).astype(bool)
+        
+        # get mean approx per unit with normal linkage
+        v_rel_approx_with = self.v_rel_approx(v_data)
+        
+        # calculate the impact of each visible unit
+        # by cutting the edges and ignoring unit in mean approximation
+        for i in range(self.v['size']):
+            
+            # modify adjacency
+            self.A = np.copy(A.T * K[i, :]).T
+                        
+            # get mean approx per unit
+            v_rel_approx_without = self.v_rel_approx(v_data)
+            
+            # calculate difference and kickout unit i
+            v_knockout = np.delete(v_rel_approx_without - v_rel_approx_with, i)
+            
+            # calculate change
+            v_knockout_approx[i] = np.mean(v_knockout)
+        
+        self.A = np.copy(A)
+        
+        return v_knockout_approx
+
+    # description:  simulate knockout of hidden units
+    #               return approximation of modified model
+    #
+    # dimensions:   (hidden)
+
+    def h_knockout_approx(self, v_data):
+        
+        # initialize matrices
+        h_knockout = np.zeros(shape = (self.h['size']))
+        A = np.copy(self.A)
+        K = (1 - np.identity(self.h['size'])).astype(bool)
+        
+        # calculate approximation with unmodified adjacency
+        v_rel_approx = self.v_rel_approx(v_data)
+        
+        # calculate the impact of each hidden unit
+        # by cutting the edges
+        for i in range(self.h['size']):
+            
+            # modify adjacency (cut edges to hidden unit i)
+            self.A = np.copy(A * K[i, :]).astype(bool)
+            
+            # calculate approximation with unlinked unit
+            v_rel_approx_mod = self.v_rel_approx(v_data)
+            
+            # calculate mean knockout effect on approximation
+            h_knockout[i] = np.mean(v_rel_approx_mod - v_rel_approx)
+            
+        # reset adjacency
+        self.A = np.copy(A)
+        
+        return h_knockout
+
+    #
+    # INFORMATION
+    #
+
+    # unit
+    def unit(self, label):
+        info = {}
+        
+        if label in self.v['label']:
+            id = self.v['label'].index(label)
+            info = {
+                'type': 'visible',
+                'distribution': 'gauss',
+                'params': {
+                    'bias': self.v['bias'][0, id],
+                    'sdev': np.sqrt(np.exp(self.v['lvar'][0, id])) },
+                'data': {
+                    'mean': self.v['data_mean'][0, id],
+                    'sdev': self.v['data_sdev'][0, id] } }
+        elif label in self.h['label']:
+            id = self.h['label'].index(label)
+            info = {
+                'type': 'hidden',
+                'distribution': 'bernoulli',
+                'params': {
+                    'bias': self.h['bias'][0, id]} }
+            
+        return info
+
+    # link
+    def link(self, label = ('', '')):
+        info = {}
+        
+        src = label[0]
+        tgt = label[1]
+        
+        if src in self.v['label'] and tgt in self.h['label']:
+            v = self.v['label'].index(src)
+            h = self.h['label'].index(tgt)
+            info = {
+                'params': {
+                    'weight': self.W[v, h],
+                    'adjacent': self.A[v, h]
+                }}
+        elif src in self.h['label'] and tgt in self.v['label']:
+            v = self.v['label'].index(tgt)
+            h = self.h['label'].index(src)
+            info = {
+                'params': {
+                    'weight': self.W[v, h],
+                    'adjacent': self.A[v, h]
+                }}
+        
+        return info
+
+    #
+    # INPUT / OUTPUT
+    #
+    
+    # get all params as dict
+    def get(self):
+        self.update_expect_ml()
+        
+        return {
+            'A': self.A,
+            'W': self.W,
+            'v_bias': self.v['bias'],
+            'h_bias': self.h['bias'],
+            'v_lvar': self.v['lvar'],
+            'v_model_mean': self.v['model_mean'],
+            'h_model_mean': self.h['model_mean'],
+            'v_data_mean': self.v['data_mean'],
+            'v_data_sdev': self.v['data_sdev'] }
+
+    # set params
+    def set(self, **params):
+        if 'A' in params:
+            self.A = params['A']
+        if 'W' in params:
+            self.W = params['W']
+        if 'v_bias' in params:
+            self.v['bias'] = params['v_bias']
+        if 'v_lvar' in params:
+            self.v['lvar'] = params['v_lvar']
+        if 'h_bias' in params:
+            self.h['bias'] = params['h_bias']
+            
+        # TODO: maybe this is not necessary
+        if 'v_model_mean' in params:
+            self.v['model_mean'] = params['v_model_mean']
+        if 'h_model_mean' in params:
+            self.h['model_mean'] = params['h_model_mean']
+        if 'v_data_mean' in params:
+            self.v['data_mean'] = params['v_data_mean']
+        if 'v_data_sdev' in params:
+            self.v['data_sdev'] = params['v_data_sdev']
+        
+        return True
+
+    # save params to npz file
+    def save(self, file = None):
+        if file == None:
+            self.logger.error("no file was given!")
+            quit()
+            
+        # create path if not available
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+        
+        # get parameters and save to file
+        params = self.get()
+        np.savez(file, **params)
+        
+    # load params from npz file
+    def load(self, file = None):
+        if file == None:
+            self.logger.error("no file was given!")
+            quit()
+
+        # check if file exists
+        if not os.path.exists(file):
+            self.logger.warning("could not open file '" + \
+                file + "': file does not exist!")
+
+        # load file and set parameters
+        params = np.load(file)
+        self.set(**params)

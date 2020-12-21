@@ -1,0 +1,33 @@
+G6PD		PGLS		PGD		RPIA		RPE		TKT		TALDO1
+
+AP-2A		Androgen receptor	TR-beta1	Oct-3/4		ESR1	c-Myc		ZNF143
+ESR1		c-Myc		c-Myb		Androgen receptor	AML1	HIF-1		AP-2
+ETS1		DAX1		c-Myc		ATF-6 alpha	c-Myc		KLF4		c-Myc
+SP1		E2F1		c-Rel		c-Myc		CREB1		CREB1		C/EBPalpha
+SREBP1		E2F4		CREB1		CUX1		DR1		E2F1		C/EBPbeta
+SREBP2		ERR2		E2F1		DP1		E2F1		E2F4		E2F1
+TR-alpha	ETS1		E2F4		E2F1		E2F4		E2F5		EGR1
+TR-beta		KLF4		ESR1		E2F6		ELF1		EGR1		ELF2
+Bcl-6		N-Myc		ETS1		ELF1		Elk-1		ESR1		ETS
+c-Myc		NANOG		FOXM1		ETS1		ETS1		ETS1		ETS1
+E2F1		Oct-3/4		GABP alpha	GABP alpha	FOXM1		FOXM1		LBP9
+E2F4		SOX2		HES1		HES1		GABP alpha	GATA-2		NANOG
+GABP alpha	SREBP1		IRF8		HNF4-alpha	GATA-4		HNF1-alpha	SOX2
+HNF4-alpha	TCF7L1		LBP9		LBP9		HNF1-alpha	HNF4-alpha	SOX5
+Oct-3/4		YB-1		LXR-alpha	N-Myc		JunD		LXR-alpha	SP1
+RARalpha	ZFX		N-Myc		RARalpha	NANOG		N-Myc		ZNF263
+ZFX		CNOT3		NANOG		SP1		Oct-1		NF-AT4		ZNF42
+MTB-Zf		NOTCH1		NFIC		TCF7L2		Oct-2		Oct-2
+		SETDB1		NFYA		YB-1		Oct-3/4		RXRA
+		TIF1-beta	NRF1		ZFX		ROR-alpha	SP3
+				Oct-2		ZNF143		SIX3		ZFX
+				Oct-3/4		PADI4		SOX2		ZNF217
+				p53				SP3		CNOT3
+				p63				STAT1		NOTCH1
+				SOX2				TCF7L1		PHF8
+				SP1				USF2		TIF1-beta
+				SREBP1				ZFX
+				YB-1				CNOT3
+				NOTCH1				PLU-1
+				PLU-1				SETDB1
+				RING2				TIF1-beta

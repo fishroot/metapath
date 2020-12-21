@@ -1,0 +1,11 @@
+DCTD		TYMS		DTYMK		NME6
+		
+		E2F1
+		GABP
+		GABP alpha
+		SP1
+		TFCP2
+		Beta-arrestin1
+		CHD8
+		ESR1
+		HDAC1

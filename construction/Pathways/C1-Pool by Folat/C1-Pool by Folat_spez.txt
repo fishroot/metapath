@@ -1,0 +1,9 @@
+DHFR		MTHFD1L		MTHFD2		MTHFD1
+
+DP1		c-Myc		Oct-3/4		c-Myc
+E2F1		Oct-3/4
+E2F5
+SP1
+SP2
+TBP
+CARM1

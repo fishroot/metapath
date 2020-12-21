@@ -1,0 +1,66 @@
+# MetaPath configuration
+# Isoleucin
+
+[network]
+gene_format = GeneSymbol
+
+[e-tf binding]
+BCAT1: c-Myc
+BCKDHA: AP-2,GCR-alpha,NFYA,NFYB,SP1,RAR-beta/RXR-alpha,RARbeta,RXRA,SP1,STAT6,PERC,PPARGC1
+DBT: PPAR-gamma,PPAR-gamma/RXR-alpha,PPAR-alpha/RXR-alpha,PPAR-gamma/RXR-alpha,RAR-alpha/RXR-alpha
+DLD: CAR/RXR-alpha,HNF4-alpha,HNF4-alpha,PPAR-alpha/RXR-alpha
+ACAA2: NANOG,TR4
+EHHADH: ERR1,HNF3-beta
+ECHS1:
+ACADM:
+
+[tf-s binding]
+c-Myc: AMY-A,AUF-1,Bcl-2,beta-TrCP,C14orf169,CIP2A,DNMT3A,E7protein,GRSF1,hnRNP C,hnRNP U,IKK-gamma,IMP1,LANA,LBP-1B,Max,Miz-1,NMI,Nuleophosmin,p300,PCBP-1,PCBP-2,PSF,PTBP1,RAM2,RUVBL1,RUVBL2,SKP2,SNIP1,TRRAP,vIRF-3,YB-1,ZO-2
+Ap-2: Relaxin1,Thioredoxin,14-3-3 eta,BAF155,BRG1,CARP-1,Caveolin-1,CDC25B,CREB1,HDAC1,Hic-5/ARA55,HMG1,2,HMGB1,JAB1,LBC,NCOA1,NCOA2,NRIP,p23 co-chaperone,Parathymosin,RBB2,Relaxin 2,STAMP,STAT3,SUMO-4,TRAP170,TRAP80,TRFP,TRIP2,TRIP6,TTC5,Zac1,Nucleophosim,Progesterone receptor,RARbeta,Rb protein,Securin,SF1,SMAD2,SMAD3,SMAD4,TAL1,TRAP170,TReP-132,VDR,Zn(2+)nucleus
+GCR-alpha: ATF-6 alpha,SP1,p300,ARNT,Ataxin-1,ATF7IP,BORIS,BRG1,c-Jun,C/EBPdelta,COUP-TFI,CRSP complex,Cyclin A1,DDX3X,E2F2,E2F3,ELF1,ESR1,ESR2,Galectin-4,HMGA2,HMGI/Y,HSP27,HSP90alpha,LEDGF/p52,MEF2D,MTF-1,NeuroD1,NF-AT1,NF-AT2,NF-kB1,Nucleolin,SHP,STAT6,Tip60,TRAP170,TRIP2
+NFYA: ATF-6 alpha,CIITA,AP-2A,CDK9,CITED2,Cyclin D3,Cyclin G2,EDF1,ERK5,GADD45alpha,GADD45beta,GADD45gamma,GCN1L1,GCR-alpha,Hic-5/ARA55,KIAA1838,LIPIN1,LMO4,MEL1,Menin,NCOA1,NCOA2,NCOA3,NCOA4,NCOA6,p300,PDK,PERC,PPARGC1,PRIC285,PRMT2,SDP1
+NFYB: AATF,AFX1,CDK4,COUP-TFI,GATA-4,HIF-1,Islet-1,MED25,NCOA1,NCOA2,NCOA6,p300,PC4,PHF2,PPARGC1,SMAD3,SMAD4,TRIP2,TRIP3
+SP1: CARM1,CBP,CITED2,NCOA3,PKA-cat alpha,PNRC,PPARGC1,Troponin I,NCOA1,NCOA2,NCOA6,p300,PC4,PHF2,PPARGC1,SMAD3,SMAD4,TRIP2,TRIP3
+PPAR-gamma: NCOA6,PARP-2,NCOA2,COUP-TFI,GATA-4,HIF-1,Islet-1,MED25,NCOA2,NRIF3,PELP1,PPARGC1,PRMT2,TR-beta1,UBE2E2
+PPAR-gamma/RXR-alpha: NCOA1,CBP,CITED2,NCOA3,PCAF,ZNF423,MED25,NCOA1,p300,PERC,Polycystin,PU.1,SND1,STAT2,STING
+CAR/RXR-alpha: Beta-catenin,SALL4,NCOA1,GADD45 gamma,Importin,LXR-alpha,NCOA1,NMI
+HNF4A: Pin1,Ubiquitin,RCD1,IL-4R type I,IRF4,Leptin receptor
+PPAR-alpha/RXR-alpha: TR4,NCOA1,GADD45 beta
+NANOG: Bcl-3,CBP,CD28
+TR4: PERC,CBP,MAT1
+ERR1: Beta-catenin,NCOA2
+HNF3-beta: CARM1,NCOA1
+HNF4-alpha: NCOA1,GADD45 alpha
+RAR-alpha/RXR-alpha: BAF60c,C/EBPbeta
+RAR-beta/RXR-alpha: BRD8,LRP130
+RARbeta: Annexin II
+RXRA: LIPIN1
+STAT6:
+PERC:
+PPARGC1:
+
+[dataset]
+file = ./data/gbm/tcga/esetfilt_nsfilter.csv
+file_format = csv
+file_format_options:
+  delimiter_ascii = 9,
+  data_type = 'float',
+  include_labels = 'yes',
+  label_format = 'AffyMetrixID'
+
+[machine]
+machine = gbrbm
+create_plots = no
+plot_points = 200
+init:
+  weights = 0.1,
+  vbias = 0,
+  hbias = 0,
+  std_dev = 0.1
+training:
+  method = 'cdn',
+  sampling_steps = 3,
+  sampling_stat = 1,
+  epochs = 5000,
+  learning_rate = 0.001
+

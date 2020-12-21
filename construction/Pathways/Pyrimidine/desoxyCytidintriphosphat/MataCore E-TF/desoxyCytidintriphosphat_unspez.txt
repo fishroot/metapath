@@ -1,0 +1,21 @@
+ENTPD8		RRM2B		NME6
+
+E2F1		p53		Bcl-6
+E2F4		CSE1L		c-Myc
+ESR2		Bcl-6		CTCF
+TCF7L2		c-Myc		E2F1
+		E2F1		E2F4
+		ETS1		E2F6
+		GABP alpha	Elk-1
+		HNF1-alpha	ETS1
+		HNF3-beta	GABP alpha
+		HNF4-alpha	RARalpha
+		HNF6		YB-1
+		LBP9		TIF1-beta
+		Miz-1
+		N-Myc
+		SP1
+		STAT3
+		YB-1
+		ZFX
+		PADI4

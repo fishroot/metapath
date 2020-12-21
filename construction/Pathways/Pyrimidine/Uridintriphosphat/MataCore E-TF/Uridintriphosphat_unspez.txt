@@ -1,0 +1,36 @@
+CAD		DHODH		UMPS		CMPK2		AK3
+
+c-Myc		c-Myc		AP-1		Bcl-6		Bcl-6
+ESR1		AP-2A		AP-2		c-Myc		c-Myc
+SP1		CREB1		ATF-2		ETS1		CREB1
+SP3		E2F1		c-Myc		GABP alpha	E2F1
+SP4		ETS1		C/EBP		NRSF		ERG
+LSD1		FOXM1		CREB1		ZFX		ERR2
+AP-4		GABP alpha	E2F1		SUZ12		ESR1
+Bcl-6		HNF1-alpha	E2F4				ETS1
+c-Myb		HNF3-beta	E2F6				GABP alpha
+CUX1		HNF4-alpha 	Elk-1				HIF1A
+E2F1		HNF6		ESR1				HNF3-beta
+E2F4		N-Myc		ETS1				KLF4
+ENO1		NFYA		FOXM1				NANOG
+ETS1		SP1		GABP alpha			NF-kB
+FOXM1				GATA-1				RARalpha
+FOXP3				GCR-alpha			SOX2
+MAD				HNF1-alpha			ZFX
+N-Myc				HNF3-beta			TIF1-beta
+NF-AT3				HNF4-alpha
+Oct-2				HNF6
+p53				LXR-alpha
+RARalpha			NFIC
+REX1				PEA3
+SOX2				SMAD3
+STAT1				SP1
+USF1				YB-1
+APEX				YY1
+BRG1				CNOT3
+CDK9				CTCF
+Cyclin T1			JMJD2A
+Max				NOTCH1
+OGG1				PLU-1
+Sin3A 				RING2
+				TIF1-beta

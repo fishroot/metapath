@@ -1,0 +1,6 @@
+h_mean.data <- read.table("h_mean.txt", header = FALSE, sep = "\t")
+h_mean.d <- dist(h_mean.data)
+h_mean.clust <- hclust(h_mean.d)
+pdf(file = "h_mean.pdf")
+plot(h_mean.clust)
+dev.off()

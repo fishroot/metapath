@@ -1,0 +1,58 @@
+DHFR		MTHFD1L		MTHFD2		MTHFD1
+
+DP1		c-Myc		Oct-3/4		c-Myc
+E2F1		Oct-3/4		AP-4		AFX1
+E2F5		Androgen receptor	ATF-2	Androgen receptor
+SP1		CREB1		ATF-5		AP-2A
+SP2		CTCF		c-Myc		AP-4
+TBP		E2F1		DR1		c-Myb
+CARM1		E2F4		E2F1		C/EBPalpha
+AHR		ETS1		E2F4		CREB1
+AP-2		GATA-1		E2F5		DR1
+ATF-2		GATA-2		ESR1		E2F1
+c-Myb		KLF4		FLI1		E2F4
+c-Myc		LBP9		FOXM1		E2F5
+CREB1		N-Myc		FOXP2		E2F6
+CTCF		NANOG		GCR-alpha	Elk-3
+E2A		p53		HNF1-alpha	ERR2
+E2F2		YB-1		JunD		ESR1
+E2F3		ZFX		KLF4		ETS1
+E2F4		CNOT3		Max		FOXM1
+E2F6		PLU-1		Mxi1		GABP alpha
+EGR1		SETDB1		N-Myc		HNF1-alpha
+ELF2				NF-AT4		HNF4-alpha
+ESR1				NF-Y		JunD
+ETS1				NFIC		KLF4
+ETS2				NFYA		LBP9
+FLI1				NRSF		Max
+FOXJ2				Oct-1		N-Myc
+FOXM1				Oct-2		NANOG
+FOXO3A				Pdx-1		NF-kB1
+FOXP3				RXRA		NFIA
+GABP alpha			SP3		NFIB
+HAND1				Sry		NFIC
+HMGI/Y				STAT5A		NFYA
+HNF1-alpha					NFYB
+HNF6						NRF1
+Max						NRSF
+N-Myc						Oct-2
+NF-Y						p53
+NFIC						PHF1
+NRL						PPAR-alpha
+NRSF						RARalpha
+Oct-1						RARbeta
+Oct-2						RelA
+RXRA						RXRA
+SOX2						SP1
+SREBP1						SP3
+Sry						STAT1
+TFIIB						USF2
+YY1						VDR
+ZFX						VDR/RXR-alpha
+ZNF161						YY1
+CBP						ZFX
+HDAC1						ZNF217
+Mi-2						NOTCH1
+NOTCH1						PLU-1
+p130						TIF1-beta
+PLU-1

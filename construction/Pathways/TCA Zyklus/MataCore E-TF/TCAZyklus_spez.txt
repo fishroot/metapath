@@ -1,0 +1,6 @@
+CS		ACO1		IDH3A		OGDH		DLST		DLD		SUCLG2		SDHA		FH		MDH1		ACLY
+
+ERR3		SP1		ERR1		ERR3								c-Myc		ERR3		c-Jun		C/EBPalpha
+PPAR-gamma			ERR3										NRF1		HNF1-alpha	PPAR-alpha/RXR-alpha	SP1
+				PPARGC1										NRF2						SREBP1
+																				SREBP2

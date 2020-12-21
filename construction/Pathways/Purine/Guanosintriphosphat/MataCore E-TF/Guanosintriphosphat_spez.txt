@@ -1,0 +1,3 @@
+IMPDH1		GMPS		GUK1		ENTPD8
+
+c-Myc		c-Myc

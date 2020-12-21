@@ -1,0 +1,10 @@
+G6PD		PGLS		PGD		RPIA		RPE		TKT		TALDO1
+
+AP-2A				TR-beta1	Oct-3/4		ESR1		c-Myc		ZNF143
+ESR1										HIF-1	
+ETS1										KLF4
+SP1
+SREBP1
+SREBP2
+TR-alpha
+TR-beta
